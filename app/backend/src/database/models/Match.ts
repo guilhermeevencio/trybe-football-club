@@ -2,7 +2,7 @@ import { Model, INTEGER } from 'sequelize';
 import db from '.';
 // import OtherModel from './OtherModel';
 
-class Matches extends Model {
+class Match extends Model {
   id!: number;
   homeTeam!: number;
   homeTeamGoals!: number;
@@ -11,7 +11,7 @@ class Matches extends Model {
   inProgress!: number;
 }
 
-Matches.init({
+Match.init({
   id: {
     type: INTEGER,
     allowNull: false,
@@ -60,4 +60,4 @@ Matches.init({
 // Example.hasMany(OtherModel, { foreignKey: 'campoC', as: 'campoEstrangeiroC' });
 // Example.hasMany(OtherModel, { foreignKey: 'campoD', as: 'campoEstrangeiroD' });
 
-export default Matches;
+export default Match;
