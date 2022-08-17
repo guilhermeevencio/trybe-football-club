@@ -25,24 +25,21 @@ User.init({
   role: {
     type: STRING,
     allowNull: false,
-    primaryKey: true,
   },
   email: {
     type: STRING,
     allowNull: false,
-    primaryKey: true,
   },
   password: {
     type: INTEGER,
     allowNull: false,
-    primaryKey: true,
   },
 
 }, {
   // ... Outras configs
   underscored: true,
   sequelize: db,
-  // modelName: 'example',
+  modelName: 'users',
   timestamps: false,
 });
 

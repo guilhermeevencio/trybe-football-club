@@ -1,6 +1,6 @@
 import { Model, INTEGER } from 'sequelize';
 import db from '.';
-// import OtherModel from './OtherModel';
+import Team from './Team';
 
 class Match extends Model {
   id!: number;
@@ -25,7 +25,6 @@ Match.init({
   homeTeamGoals: {
     type: INTEGER,
     allowNull: false,
-    primaryKey: true,
   },
   awayTeam: {
     type: INTEGER,
@@ -34,7 +33,6 @@ Match.init({
   awayTeamGoals: {
     type: INTEGER,
     allowNull: false,
-    primaryKey: true,
   },
   inProgress: {
     type: INTEGER,
@@ -45,7 +43,7 @@ Match.init({
   // ... Outras configs
   underscored: true,
   sequelize: db,
-  // modelName: 'example',
+  modelName: 'matches',
   timestamps: false,
 });
 
@@ -54,7 +52,8 @@ Match.init({
   * Associations 1:N devem ficar em uma das instâncias de modelo
   * */
 
-// OtherModel.belongsTo(Example, { foreignKey: 'campoA', as: 'campoEstrangeiroA' });
+Match.belongsTo(Team, { foreignKey: 'homeTeam', as: 'id' });
+Match.belongsTo(Team, { foreignKey: 'awayTeam', as: 'id' });
 // OtherModel.belongsTo(Example, { foreignKey: 'campoB', as: 'campoEstrangeiroB' });
 
 // Example.hasMany(OtherModel, { foreignKey: 'campoC', as: 'campoEstrangeiroC' });
