@@ -21,7 +21,7 @@ const userMock: IUser = {
 }
 
 const loginRequest: LoginRequest = {
-  name: 'guilherme',
+  password: 'guilherme',
   email: 'guilherme@email.com',
 }
 
@@ -47,7 +47,7 @@ describe('User', () => {
       .post('/login')
       .send(loginRequest)
     
-    expect(response.status).to.equal(201);
+    expect(response.status).to.equal(200);
   })
 
   it('Retorna o user', async () => {

@@ -1,16 +1,36 @@
-import jwt from 'jsonwebtoken';
+import * as jwt from 'jsonwebtoken';
 import 'dotenv/config';
 import { LoginRequest } from '../interfaces/User';
 
-const createToken = (user: LoginRequest) => {
-  const jwtConfig = {
-    expiresIn: '1h',
-    algorithm: 'HS256',
-  };
+interface TokenData {
+  token: string
+  expiresIn: number
+}
 
-  const secret = process.env.JWT_SECRET;
+// const createToken = (userInfo: LoginRequest): TokenData => {
+//   const expiresIn = 60 * 60;
+//   const secret = process.env.JWT_SECRET || 'adfdafs';
+//   const dataStoredInToken: LoginRequest = userInfo;
 
-  const token = ({ data: user }, secret, jwtConfig);
+//   return {
+//     expiresIn,
+//     token: jwt.sign(dataStoredInToken, secret, { expiresIn, algorithm: 'HS256' }),
+//   };
+// };
 
-  return token;
-};
+// export default createToken;
+
+class TokenService {
+  static createToken(userInfo: LoginRequest): TokenData {
+    const expiresIn = 60 * 60;
+    const secret = process.env.JWT_SECRET || 'adfdafs';
+    const dataStoredInToken: LoginRequest = userInfo;
+
+    return {
+      expiresIn,
+      token: jwt.sign(dataStoredInToken, secret, { expiresIn, algorithm: 'HS256' }),
+    };
+  }
+}
+
+export default new TokenService();
