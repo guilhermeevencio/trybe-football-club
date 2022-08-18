@@ -1,4 +1,4 @@
-import httpStatus from 'http-status-codes';
+// import httpStatus from 'http-status-codes';
 import CustomError from '../../../../Error/CustomError';
 import User from '../../../../database/models/User';
 import { LoginRequest } from '../../../../interfaces/User';
@@ -12,22 +12,19 @@ export default class UserLoginUseCase {
     this.userInfo = userInfo;
     const { email, password } = this.userInfo;
     const user = await User.findOne({ where: { email } });
-    console.log(user?.password);
 
     if (!user) {
-      throw new CustomError('Incorrect email or password', httpStatus.UNAUTHORIZED);
+      throw new CustomError('Incorrect email or password', 401);
     }
 
     const isPasswordCorrect = await HandleWithPassword.comparePasswords(password, user.password);
 
-    console.log(isPasswordCorrect);
-
     if (!isPasswordCorrect) {
-      throw new CustomError('Incorrect email or password', httpStatus.UNAUTHORIZED);
+      throw new CustomError('Incorrect email or password', 401);
     }
 
     const tokenData = TokenService.createToken(this.userInfo);
 
-    return tokenData.token;
+    return tokenData;
   }
 }

@@ -21,15 +21,12 @@ export interface TokenData {
 // export default createToken;
 
 class TokenService {
-  static createToken(userInfo: LoginRequest): TokenData {
-    const expiresIn = 60 * 60;
+  static createToken(userInfo: LoginRequest): string {
+    // const expiresIn = 60 * 60;
     const secret = process.env.JWT_SECRET || 'adfdafs';
     const dataStoredInToken: LoginRequest = userInfo;
 
-    return {
-      expiresIn,
-      token: jwt.sign(dataStoredInToken, secret, { expiresIn, algorithm: 'HS256' }),
-    };
+    return jwt.sign(dataStoredInToken, secret);
   }
 }
 
