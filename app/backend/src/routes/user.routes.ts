@@ -1,12 +1,11 @@
 import { NextFunction, Router } from 'express';
-import CustomError from '../Error/CustomError';
+// import CustomError from '../Error/CustomError';
+import userLoginController from '../modules/users/useCases/userLogin';
 
 const LoginRoutes = Router();
 
 LoginRoutes.post('/login', (req, res, next: NextFunction) => {
-  // res.status(201).send('Hello World!');
-  const error = new CustomError('teste', 400);
-  next(error);
+  userLoginController.loginUser(req, res, next);
 });
 
 export default LoginRoutes;

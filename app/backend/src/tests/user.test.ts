@@ -1,11 +1,11 @@
 import * as sinon from 'sinon';
 import * as chai from 'chai';
-import User from '../../database/models/User'
+import User from '../database/models/User'
 // @ts-ignore
 import chaiHttp = require('chai-http');
 
-import { app } from '../../app';
-import { LoginRequest, IUser } from '../../interfaces/User'
+import { app } from '../app';
+import { LoginRequest, IUser } from '../interfaces/User'
 
 import { Response } from 'superagent';
 
@@ -55,7 +55,9 @@ describe('User', () => {
        .request(app)
        .post('/login')
        .send(loginRequest)
+    console.log(response.body);
+    
 
-    expect(chaiHttpResponse.body).to.be.equal([]);
+    expect(response.body).to.be.equal('teste');
   });
 });
