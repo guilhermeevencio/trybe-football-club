@@ -2,7 +2,7 @@ import * as jwt from 'jsonwebtoken';
 import 'dotenv/config';
 import { LoginRequest } from '../interfaces/User';
 
-interface TokenData {
+export interface TokenData {
   token: string
   expiresIn: number
 }
@@ -33,4 +33,4 @@ class TokenService {
   }
 }
 
-export default new TokenService();
+export default TokenService;

@@ -1,5 +1,3 @@
-import User from '../../database/models/User';
-
 interface LoginRequest {
   password: string
   email: string
@@ -7,6 +5,7 @@ interface LoginRequest {
 
 interface IUser {
   id: number
+  username: string
   role: string
   email: string
   password: string
@@ -23,5 +22,5 @@ export {
 };
 
 export interface ILoginUserUseCase {
-  execute(userInfo: LoginRequest): Promise<User | null>
+  execute(userInfo: LoginRequest): Promise<string>
 }

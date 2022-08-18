@@ -5,8 +5,13 @@ import { ILoginUserUseCase } from '../../../../interfaces/User';
 export default class UserLoginController {
   constructor(private userLoginUseCase : ILoginUserUseCase) {}
 
-  public async loginUser(req: Request, res: Response, _next: NextFunction): Promise<void> {
-    const user = await this.userLoginUseCase.execute(req.body);
-    res.status(httpStatus.OK).json(user);
+  public async loginUser(req: Request, res: Response, next: NextFunction): Promise<void> {
+    try {
+      const token = await this.userLoginUseCase.execute(req.body);
+
+      res.status(httpStatus.OK).json({ token });
+    } catch (error) {
+      next(error);
+    }
   }
 }

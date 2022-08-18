@@ -15,6 +15,7 @@ const { expect } = chai;
 
 const userMock: IUser = {
   id: 1,
+  username: 'Guilherme',
   email: 'guilherme@email.com',
   role: 'Admin',
   password: '1235456'
@@ -55,9 +56,7 @@ describe('User', () => {
        .request(app)
        .post('/login')
        .send(loginRequest)
-    console.log(response.body);
-    
 
-    expect(response.body).to.be.equal('teste');
+    expect(response.body).to.be.deep.equal(userMock);
   });
 });
