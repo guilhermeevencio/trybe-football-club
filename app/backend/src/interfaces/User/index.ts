@@ -1,7 +1,7 @@
 import User from '../../database/models/User';
 
 interface LoginRequest {
-  name: string
+  password: string
   email: string
 }
 
