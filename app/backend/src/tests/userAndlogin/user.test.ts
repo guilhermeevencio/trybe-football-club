@@ -5,7 +5,7 @@ import User from '../../database/models/User'
 import chaiHttp = require('chai-http');
 
 import { app } from '../../app';
-import { UserRequest, IUser } from '../../interfaces/User'
+import { LoginRequest, IUser } from '../../interfaces/User'
 
 import { Response } from 'superagent';
 
@@ -20,7 +20,7 @@ const userMock: IUser = {
   password: '1235456'
 }
 
-const loginRequest: UserRequest = {
+const loginRequest: LoginRequest = {
   name: 'guilherme',
   email: 'guilherme@email.com',
 }

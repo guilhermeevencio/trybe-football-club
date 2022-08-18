@@ -1,4 +1,4 @@
-interface UserRequest {
+interface LoginRequest {
   name: string
   email: string
 }
@@ -16,6 +16,6 @@ interface Login {
 
 export {
   IUser,
-  UserRequest,
+  LoginRequest,
   Login,
 };
