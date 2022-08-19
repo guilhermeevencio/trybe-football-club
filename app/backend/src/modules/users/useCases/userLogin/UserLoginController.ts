@@ -24,7 +24,7 @@ export default class UserLoginController {
     try {
       const { tokenEmail } = req.body;
 
-      const role = await this.userLoginUseCase.validate(tokenEmail);
+      const { role } = await this.userLoginUseCase.validate(tokenEmail);
 
       res.status(200).json({ role });
     } catch (error) {

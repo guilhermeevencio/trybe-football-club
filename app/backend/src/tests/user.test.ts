@@ -2,6 +2,7 @@ import * as sinon from 'sinon';
 import * as chai from 'chai';
 import User from '../database/models/User'
 import UserLoginUseCase from '../modules/users/useCases/userLogin/UserLoginUseCase';
+import * as jwt from 'jsonwebtoken';
 // @ts-ignore
 import chaiHttp = require('chai-http');
 
@@ -58,11 +59,12 @@ describe('Rota /user', () => {
   });
 });
 
-describe.only('Rota /user/validate', () => { 
+describe('Rota /user/validate', () => { 
   let chaiHttpResponse: Response;
 
   beforeEach(() => {
     sinon.stub(User, "findOne").resolves(userMock as User);
+    sinon.stub(jwt, "verify").callsFake(() => userMock as User);
   });
 
   afterEach(()=>{
@@ -72,8 +74,8 @@ describe.only('Rota /user/validate', () => {
   it('retorna status 200', async  () => {
     const response = await chai.request(app)
       .get('/login/validate')
-      .set('authorization', 'token')
       .send()
+      .set('authorization', 'token')
     
     expect(response.status).to.equal(200);
   })

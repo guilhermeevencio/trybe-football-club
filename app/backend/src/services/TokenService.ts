@@ -12,11 +12,13 @@ class TokenService {
   }
 
   static validateToken(token: string): jwt.JwtPayload {
-    const secret = process.env.JWT_SECRET || 'adfdafs';
-    const data = jwt.verify(token, secret) as jwt.JwtPayload;
-
-    if (!data.email) throw new CustomError('Invalid Token', 401);
-    return data;
+    try {
+      const secret = process.env.JWT_SECRET || 'adfdafs';
+      const data = jwt.verify(token, secret) as jwt.JwtPayload;
+      return data;
+    } catch (error) {
+      throw new CustomError('Invalid Token', 401);
+    }
   }
 }
 

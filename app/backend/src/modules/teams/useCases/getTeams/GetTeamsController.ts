@@ -8,4 +8,8 @@ export default class GetTeamsController {
     const teams = await this.teamsUseCase.execute();
     res.status(200).json(teams);
   }
+
+  // public async getById(req: Request, res: Response, _next: NextFunction): Promise<void> {
+  //   const team = await this.teamsUseCase.findById();
+  // }
 }

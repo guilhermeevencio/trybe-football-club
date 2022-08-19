@@ -1,7 +1,7 @@
 // import httpStatus from 'http-status-codes';
 import CustomError from '../../../../Error/CustomError';
 import User from '../../../../database/models/User';
-import { LoginRequest, UserRole } from '../../../../interfaces/User';
+import { LoginRequest } from '../../../../interfaces/User';
 import TokenService from '../../../../services/TokenService';
 import HandleWithPassword from '../../../../services/HandleWithPassword';
 
@@ -34,11 +34,12 @@ export default class UserLoginUseCase {
     return tokenData;
   }
 
-  async validate(tokenEmail: string): Promise<UserRole> {
+  async validate(tokenEmail: string): Promise<User> {
     this.tokenEmail = tokenEmail;
     const user = await UserLoginUseCase.findByEmail(tokenEmail);
 
-    const role = user?.getDataValue('role');
-    return role;
+    if (!user) throw new CustomError('Invalid Token', 401);
+
+    return user;
   }
 }

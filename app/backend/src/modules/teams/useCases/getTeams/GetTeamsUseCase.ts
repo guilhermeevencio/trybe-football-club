@@ -9,4 +9,9 @@ export default class GetTeamsUseCase {
     const data = await this.teamModel.findAll();
     return data;
   }
+
+  // async findById(id: number): Promise<ITeam> {
+  //   const data = await this.teamModel.findOne({ where: { id } });
+  //   return data as ITeam;
+  // }
 }

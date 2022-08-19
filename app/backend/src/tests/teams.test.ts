@@ -67,10 +67,9 @@ describe('Rota /teams', () => {
     })
 
     it('Deve retornar o time', () => {
-      const team = chaiHttpResponse.body as ITeam;
+      // const team = chaiHttpResponse.body as ITeam;
 
-      expect(team.id).to.equal(teamMock.id);
-      expect(team.teamName).to.equal(teamMock.teamName);
+      expect(chaiHttpResponse.body).to.deep.equal(teamMock);
     })
   })
 })
