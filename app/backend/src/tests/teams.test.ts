@@ -20,8 +20,8 @@ const teamMock: ITeam = {
   teamName: 'Fluminense'
 }
 
-describe('Rota /teams', () => {
-  describe('Consulta os Times', () => {
+describe('Rota /teams.', () => {
+  describe('Consulta os Times.', () => {
     let chaiHttpResponse: Response;
 
     beforeEach(async () => {
