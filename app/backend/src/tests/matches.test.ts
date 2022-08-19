@@ -26,7 +26,6 @@ interface IMatchMock {
   teamAway: {
     teamName: string
   }
-
 }
 
 const matchMock: IMatchMock = {
@@ -50,6 +49,8 @@ describe('Rota /matches.', () => {
 
     beforeEach(async () => {
       sinon.stub(Match, "findAll").resolves([matchMock as unknown as Match]);
+      chaiHttpResponse = await chai.request(app)
+        .get('/matches')
     })
 
     afterEach(()=>{
