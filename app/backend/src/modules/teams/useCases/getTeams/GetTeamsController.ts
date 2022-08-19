@@ -9,7 +9,15 @@ export default class GetTeamsController {
     res.status(200).json(teams);
   }
 
-  // public async getById(req: Request, res: Response, _next: NextFunction): Promise<void> {
-  //   const team = await this.teamsUseCase.findById();
-  // }
+  public async getById(req: Request, res: Response, next: NextFunction): Promise<void> {
+    try {
+      const { id } = req.params;
+      const team = await this.teamsUseCase.findById(+id);
+      console.log(team);
+
+      res.status(200).json(team);
+    } catch (error) {
+      next(error);
+    }
+  }
 }

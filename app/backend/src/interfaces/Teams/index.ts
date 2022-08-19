@@ -5,5 +5,5 @@ export interface ITeam {
 
 export interface ITeamsUseCase {
   execute(): Promise<ITeam[]>
-  // findById(): Promise<ITeam>
+  findById(id: number): Promise<ITeam>
 }

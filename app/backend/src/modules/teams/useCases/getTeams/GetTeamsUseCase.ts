@@ -1,4 +1,4 @@
-// import CustomError from '../../../../Error/CustomError';
+import CustomError from '../../../../Error/CustomError';
 import Team from '../../../../database/models/Team';
 import { ITeam } from '../../../../interfaces/Teams';
 
@@ -10,8 +10,9 @@ export default class GetTeamsUseCase {
     return data;
   }
 
-  // async findById(id: number): Promise<ITeam> {
-  //   const data = await this.teamModel.findOne({ where: { id } });
-  //   return data as ITeam;
-  // }
+  async findById(id: number): Promise<ITeam> {
+    const team = await this.teamModel.findOne({ where: { id } });
+    if (!team) throw new CustomError('Team not found', 400);
+    return team as ITeam;
+  }
 }
