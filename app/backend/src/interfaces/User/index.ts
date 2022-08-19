@@ -3,24 +3,29 @@ interface LoginRequest {
   email: string
 }
 
-interface IUser {
+interface IUser extends LoginRequest {
   id: number
   username: string
   role: string
-  email: string
-  password: string
+}
+
+interface UserRole {
+  role: string
 }
 
 interface Login {
   email: string
 }
 
+interface ILoginUserUseCase {
+  execute(userInfo: LoginRequest): Promise<string>
+  validate(email: string): Promise<UserRole>
+}
+
 export {
   IUser,
   LoginRequest,
   Login,
+  ILoginUserUseCase,
+  UserRole,
 };
-
-export interface ILoginUserUseCase {
-  execute(userInfo: LoginRequest): Promise<string>
-}

@@ -19,4 +19,16 @@ export default class UserLoginController {
       next(error);
     }
   }
+
+  public async validateUser(req: Request, res: Response, next: NextFunction): Promise<void> {
+    try {
+      const { tokenEmail } = req.body;
+
+      const role = await this.userLoginUseCase.validate(tokenEmail);
+
+      res.status(200).json({ role });
+    } catch (error) {
+      next(error);
+    }
+  }
 }
