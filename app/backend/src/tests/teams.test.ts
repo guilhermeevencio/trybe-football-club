@@ -2,7 +2,7 @@ import * as sinon from 'sinon';
 import * as chai from 'chai';
 
 import Team from '../database/models/Team'
-import ITeam from '../interfaces/Teams'
+import { ITeam } from '../interfaces/Teams'
 
 //@ts-ignore
 import chaiHttp = require('chai-http');
@@ -33,7 +33,7 @@ describe('Rota /teams', () => {
     });
 
     afterEach(()=>{
-      (Team.findAll as sinon.SinonStub).restore();
+      (Team.findAll as sinon.SinonStub).restore;
     })
 
     it('A requisição GET para a rota traz uma lista de times.', () => {
@@ -48,6 +48,29 @@ describe('Rota /teams', () => {
       expect(team.id).to.equal(teamMock.id);
       expect(team.teamName).to.equal(teamMock.teamName);
     })
+  })
 
+  describe('Consulta por time específico pelo id', () => {
+    let chaiHttpResponse: Response;
+    const teamId = 1
+
+    beforeEach(async () => {
+      sinon
+      .stub(Team, "findOne")
+      .resolves(teamMock as Team);
+      chaiHttpResponse = await chai.request(app)
+        .get(`/teams/${teamId}`)
+    });
+
+    afterEach(()=>{
+      (Team.findAll as sinon.SinonStub).restore;
+    })
+
+    it('Deve retornar o time', () => {
+      const team = chaiHttpResponse.body as ITeam;
+
+      expect(team.id).to.equal(teamMock.id);
+      expect(team.teamName).to.equal(teamMock.teamName);
+    })
   })
 })

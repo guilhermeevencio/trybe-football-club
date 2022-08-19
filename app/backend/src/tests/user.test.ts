@@ -20,15 +20,15 @@ const userMock: IUser = {
   username: 'guilherme',
   email: 'guilherme@email.com',
   role: 'Admin',
-  password: '1235456'
+  password: '$2a$08$xi.Hxk1czAO0nZR..B393u10aED0RQ1N3PAEXQ7HxtLjKPEZBu.PW'
 }
 
 const loginRequest: LoginRequest = {
-  email: 'guilherme@email.com',
-  password: '123456',
+  email: "admin@admin.com",
+  password: "secret_admin",
 }
 
-describe.skip('User Model', () => {
+describe('Rota /user', () => {
 
   let chaiHttpResponse: Response;
 
@@ -40,7 +40,7 @@ describe.skip('User Model', () => {
     (User.findOne as sinon.SinonStub).restore();
   })
 
-  it('retorna status 201', async  () => {
+  it('retorna status 200', async  () => {
     const response = await chai.request(app)
       .post('/login')
       .send(loginRequest)
@@ -54,6 +54,27 @@ describe.skip('User Model', () => {
        .post('/login')
        .send(loginRequest)
 
-    expect(response.body).to.be.deep.equal(userMock);
+    expect(response.body.token).to.be.a('string');
   });
 });
+
+describe.only('Rota /user/validate', () => { 
+  let chaiHttpResponse: Response;
+
+  beforeEach(() => {
+    sinon.stub(User, "findOne").resolves(userMock as User);
+  });
+
+  afterEach(()=>{
+    (User.findOne as sinon.SinonStub).restore();
+  })
+
+  it('retorna status 200', async  () => {
+    const response = await chai.request(app)
+      .get('/login/validate')
+      .set('authorization', 'token')
+      .send()
+    
+    expect(response.status).to.equal(200);
+  })
+})
