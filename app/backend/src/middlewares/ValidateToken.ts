@@ -9,12 +9,6 @@ export default async function ValidateToken(req: Request, res: Response, next: N
     if (!token) throw new CustomError('Token not found', 401);
     const tokenInfo = TokenService.validateToken(token);
 
-    // Levar essa função para o usecase de userLogin
-
-    // const user = await UserLoginUseCase.findByEmail(tokenInfo.email);
-    // const role = user?.getDataValue('role');
-
-    // falta transformar esse retorno de requisição abaixo em um next
     if (!tokenInfo.email) {
       throw new CustomError('Invalid Token', 401);
     }
@@ -22,6 +16,7 @@ export default async function ValidateToken(req: Request, res: Response, next: N
     req.body.tokenEmail = tokenInfo.email;
     next();
   } catch (error) {
-    next(error);
+    const customError = error as CustomError;
+    next(customError);
   }
 }
