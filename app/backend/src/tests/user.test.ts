@@ -17,31 +17,26 @@ const { expect } = chai;
 
 const userMock: IUser = {
   id: 1,
-  username: 'Guilherme',
+  username: 'guilherme',
   email: 'guilherme@email.com',
   role: 'Admin',
   password: '1235456'
 }
 
 const loginRequest: LoginRequest = {
-  password: 'guilherme',
   email: 'guilherme@email.com',
+  password: '123456',
 }
 
-describe('User Model', () => {
-  /**
-   * Exemplo do uso de stubs com tipos
-   */
+describe.skip('User Model', () => {
 
   let chaiHttpResponse: Response;
 
-  before(async () => {
-    sinon
-      .stub(User, "findOne")
-      .resolves(userMock as User);
+  beforeEach(() => {
+    sinon.stub(User, "findOne").resolves(userMock as User);
   });
 
-  after(()=>{
+  afterEach(()=>{
     (User.findOne as sinon.SinonStub).restore();
   })
 
