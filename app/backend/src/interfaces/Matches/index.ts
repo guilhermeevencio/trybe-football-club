@@ -29,8 +29,13 @@ interface IMatchesUseCase {
   execute(): Promise<Match[]>
 }
 
+interface ICreateMatchUseCase {
+  execute(reqBody: ICreateMatchRequestBody): Promise<ICreatedMatch>
+}
+
 export {
   IMatchesUseCase,
+  ICreateMatchUseCase,
   IMatch,
   ICreatedMatch,
   ICreateMatchRequestBody,

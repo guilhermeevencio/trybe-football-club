@@ -47,7 +47,7 @@ describe('Rota /matches.', () => {
     });
   });
 
-  describe.only('Salva uma partida', () => {
+  describe('Salva uma partida', () => {
     let chaiHttpResponse: Response;
 
     beforeEach(async () => {
@@ -59,7 +59,7 @@ describe('Rota /matches.', () => {
     });
 
     afterEach(()=>{
-      (Match.findAll as sinon.SinonStub).restore;
+      (Match.create as sinon.SinonStub).restore();
     });
 
     it('A requisição retorna 201', () => {
