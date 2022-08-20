@@ -75,3 +75,5 @@ describe('Rota /matches.', () => {
     });
   });
 });
+
+// fazer teste da condição de times iguais
