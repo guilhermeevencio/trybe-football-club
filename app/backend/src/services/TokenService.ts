@@ -17,7 +17,7 @@ class TokenService {
       const data = jwt.verify(token, secret) as jwt.JwtPayload;
       return data;
     } catch (error) {
-      throw new CustomError('Invalid Token', 401);
+      throw new CustomError('Token must be a valid token', 401);
     }
   }
 }

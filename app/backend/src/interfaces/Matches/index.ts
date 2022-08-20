@@ -33,10 +33,15 @@ interface ICreateMatchUseCase {
   execute(reqBody: ICreateMatchRequestBody): Promise<ICreatedMatch>
 }
 
+interface IUpdateMatchUseCase {
+  execute(id: number): Promise<void>
+}
+
 export {
   IMatchesUseCase,
   ICreateMatchUseCase,
   IMatch,
   ICreatedMatch,
   ICreateMatchRequestBody,
+  IUpdateMatchUseCase,
 };
