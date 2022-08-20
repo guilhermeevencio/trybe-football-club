@@ -9,7 +9,7 @@ export default class CreateMatchUseCase implements ICreateMatchUseCase {
   constructor(private matchModel = Match) {}
 
   async execute(reqBody: ICreateMatchRequestBody): Promise<ICreatedMatch> {
-    const createdMatch = await this.matchModel.create(reqBody);
+    const createdMatch = await this.matchModel.create({ ...reqBody, inProgress: true });
 
     return createdMatch;
   }

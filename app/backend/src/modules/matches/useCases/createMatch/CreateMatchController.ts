@@ -4,10 +4,13 @@ import { ICreateMatchRequestBody, ICreateMatchUseCase } from '../../../../interf
 export default class CreateMatchController {
   constructor(private createMatchUseCase: ICreateMatchUseCase) {}
 
-  public async createMatch(req: Request, res: Response, _next: NextFunction): Promise<void> {
-    const matchInfo: ICreateMatchRequestBody = req.body;
-    const createdMatch = await this.createMatchUseCase.execute(matchInfo);
-
-    res.status(201).json(createdMatch);
+  public async createMatch(req: Request, res: Response, next: NextFunction): Promise<void> {
+    try {
+      const matchInfo: ICreateMatchRequestBody = req.body;
+      const createdMatch = await this.createMatchUseCase.execute(matchInfo);
+      res.status(201).json(createdMatch);
+    } catch (error) {
+      next(error);
+    }
   }
 }

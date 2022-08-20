@@ -13,7 +13,6 @@ export default class GetTeamsController {
     try {
       const { id } = req.params;
       const team = await this.teamsUseCase.findById(+id);
-      console.log(team);
 
       res.status(200).json(team);
     } catch (error) {
