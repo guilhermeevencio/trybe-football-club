@@ -35,6 +35,7 @@ interface ICreateMatchUseCase {
 
 interface IUpdateMatchUseCase {
   execute(id: number): Promise<void>
+  updateScore(homeTeamGoals: number, awayTeamsGoals: number, id: number): Promise<void>
 }
 
 export {

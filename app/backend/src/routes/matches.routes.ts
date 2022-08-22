@@ -12,8 +12,13 @@ MatchesRoutes.get(
 );
 
 MatchesRoutes.patch(
+  '/matches/:id',
+  (req, res, next) => updateMatchController.updateScore(req, res, next),
+);
+
+MatchesRoutes.patch(
   '/matches/:id/finish',
-  (req, res, next) => updateMatchController.updateMatch(req, res, next),
+  (req, res, next) => updateMatchController.updateInProgress(req, res, next),
 );
 
 MatchesRoutes.post(
