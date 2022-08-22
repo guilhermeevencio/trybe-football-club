@@ -69,6 +69,7 @@ describe('Rota /user/validate', () => {
 
   afterEach(()=>{
     (User.findOne as sinon.SinonStub).restore();
+    (jwt.verify as sinon.SinonStub).restore();
   })
 
   it('retorna status 200', async  () => {

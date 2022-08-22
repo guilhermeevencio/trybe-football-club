@@ -14,13 +14,13 @@ import {
   createMatchWithWrongId,
   createMatchWithWrongIdMessage,
 } from './mocks/matches.mock';
+import { userMock } from './mocks/users.mock';
 
 //@ts-ignore
 import chaiHttp = require('chai-http');
 
 import { app } from '../app';
 import { Response } from 'superagent'
-import { userMock } from './mocks/users.mock';
 
 chai.use(chaiHttp);
 
