@@ -9,6 +9,10 @@ import {
   matchMock,
   createMatchMock,
   createdPostResponseMock,
+  createMatchWithSameTeam,
+  createMatchWithSameTeamMessage,
+  createMatchWithWrongId,
+  createMatchWithWrongIdMessage,
 } from './mocks/matches.mock';
 
 //@ts-ignore
@@ -50,7 +54,7 @@ describe('Rota /matches.', () => {
     });
   });
 
-  describe.only('Salva uma partida', () => {
+  describe('Salva uma partida', () => {
     let chaiHttpResponse: Response;
 
     beforeEach(async () => {
@@ -80,6 +84,59 @@ describe('Rota /matches.', () => {
       expect(chaiHttpResponse.body.inProgress).to.be.true;
     });
   });
-});
 
-// fazer teste da condição de times iguais
+  describe('Verifica que não é posível salvar uma partida com times iguais', () => {
+    let chaiHttpResponse: Response;
+
+    beforeEach(async () => {
+      sinon.stub(Match, "create").resolves(createdPostResponseMock as Match);
+      sinon.stub(jwt, "verify").callsFake(() => userMock as User);
+
+      chaiHttpResponse = await chai.request(app)
+        .post('/matches')
+        .send(createMatchWithSameTeam)
+        .set('authorization', 'token');
+    });
+
+    afterEach(()=>{
+      (Match.create as sinon.SinonStub).restore();
+      (jwt.verify as sinon.SinonStub).restore();
+    });    
+
+
+    it('A requisição retorna 401', () => {
+      expect(chaiHttpResponse.status).to.equal(401);
+    });
+
+    it('A requisição retorna a mensagem correta', () => {
+      expect(chaiHttpResponse.body).to.deep.equal(createMatchWithSameTeamMessage);
+    });
+  })
+
+  describe('Verifica se não é possível salvar partida com id incorreto.', () => {
+    let chaiHttpResponse: Response;
+
+    beforeEach(async () => {
+      sinon.stub(Match, "create").resolves(createdPostResponseMock as Match);
+      sinon.stub(jwt, "verify").callsFake(() => userMock as User);
+
+      chaiHttpResponse = await chai.request(app)
+        .post('/matches')
+        .send(createMatchWithWrongId)
+        .set('authorization', 'token');
+    });
+
+    afterEach(()=>{
+      (Match.create as sinon.SinonStub).restore();
+      (jwt.verify as sinon.SinonStub).restore();
+    });
+
+    it('A requisição retorna 404', () => {
+      expect(chaiHttpResponse.status).to.equal(404);
+    });
+
+    it('A requisição retorna a mensagem correta', () => {
+      expect(chaiHttpResponse.body).to.deep.equal(createMatchWithWrongIdMessage);
+    });
+  });
+});
