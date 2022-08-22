@@ -1,7 +1,9 @@
 import * as sinon from 'sinon';
 import * as chai from 'chai';
+import * as jwt from 'jsonwebtoken';
 
 import Match from '../database/models/Match'
+import User from '../database/models/User'
 import { IMatch } from '../interfaces/Matches'
 import {
   matchMock,
@@ -14,6 +16,7 @@ import chaiHttp = require('chai-http');
 
 import { app } from '../app';
 import { Response } from 'superagent'
+import { userMock } from './mocks/users.mock';
 
 chai.use(chaiHttp);
 
@@ -47,19 +50,22 @@ describe('Rota /matches.', () => {
     });
   });
 
-  describe('Salva uma partida', () => {
+  describe.only('Salva uma partida', () => {
     let chaiHttpResponse: Response;
 
     beforeEach(async () => {
       sinon.stub(Match, "create").resolves(createdPostResponseMock as Match);
+      sinon.stub(jwt, "verify").callsFake(() => userMock as User);
 
       chaiHttpResponse = await chai.request(app)
         .post('/matches')
-        .send(createMatchMock);
+        .send(createMatchMock)
+        .set('authorization', 'token');
     });
 
     afterEach(()=>{
       (Match.create as sinon.SinonStub).restore();
+      (jwt.verify as sinon.SinonStub).restore();
     });
 
     it('A requisição retorna 201', () => {
