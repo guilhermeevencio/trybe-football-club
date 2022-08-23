@@ -1,5 +1,7 @@
-const leaderBoardReturnMock = {
-  name: 'Santos',
+import { ILeaderboardReturn } from "../../modules/leaderboard/interfaces"
+
+const leaderBoardReturnMock: ILeaderboardReturn = {
+  name: "Santos",
   totalPoints: 9,
   totalGames: 3,
   totalVictories: 3,
@@ -8,7 +10,7 @@ const leaderBoardReturnMock = {
   goalsFavor: 9,
   goalsOwn: 3,
   goalsBalance: 6,
-  efficiency: '100.00'
+  efficiency: "100.00"
 }
 
 export {

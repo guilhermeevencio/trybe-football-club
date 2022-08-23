@@ -11,11 +11,22 @@ interface ILeaderboardReturn {
   efficiency: string
 }
 
-interface dasfaf {
-  dsaf: string
+interface IRawLeaderboardData {
+  team: string,
+  wons: number,
+  draws: number,
+  losses: number,
+  goalsFor: number,
+  goalsAgainst: number,
+}
+
+interface IGoals {
+  goalsFor: number,
+  goalsAgainst: number,
 }
 
 export {
   ILeaderboardReturn,
-  dasfaf,
+  IRawLeaderboardData,
+  IGoals,
 };

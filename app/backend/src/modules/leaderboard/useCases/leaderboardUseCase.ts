@@ -1,20 +1,7 @@
 // import { IMatch } from '../../../interfaces/Matches/index';
 import Match from '../../../database/models/Match';
 import Team from '../../../database/models/Team';
-
-interface IRawLeaderboardData {
-  team: string,
-  wons: number,
-  draws: number,
-  losses: number,
-  goalsFor: number,
-  goalsAgainst: number,
-}
-
-interface IGoals {
-  goalsFor: number,
-  goalsAgainst: number,
-}
+import { IRawLeaderboardData, IGoals, ILeaderboardReturn } from '../interfaces';
 
 export default class LeaderboarUseCase {
   constructor(private matchModel = Match, private teamModel = Team) {}
@@ -105,7 +92,7 @@ export default class LeaderboarUseCase {
     return teamsRefactored;
   }
 
-  private async formatedTeamsData(homeOrAway: string) {
+  private async formatedTeamsData(homeOrAway: string): Promise<ILeaderboardReturn[]> {
     const rawData: IRawLeaderboardData[] = await this.rawLeaderBoardData(homeOrAway);
     const formatedData = rawData.map(({ team, wons, draws, losses, goalsAgainst, goalsFor }) => {
       const data = {
@@ -125,7 +112,7 @@ export default class LeaderboarUseCase {
     return formatedData;
   }
 
-  async sortedTeamsInfo(homeOrAway: string) {
+  async sortedTeamsInfo(homeOrAway: string): Promise<ILeaderboardReturn[]> {
     const teamData = await this.formatedTeamsData(homeOrAway);
     teamData.sort((a, b) => (
       b.totalPoints - a.totalPoints

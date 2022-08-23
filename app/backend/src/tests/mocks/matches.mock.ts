@@ -5,18 +5,18 @@ import {
   ICreateMatchRequestBody,
 } from '../../interfaces/Matches';
 
-const matchMock: IMatch = {
-  id: 1,
-  homeTeam: 16,
-  homeTeamGoals: 1,
-  awayTeam: 8,
+const matchMock: IMatch = 	{
+  id: 14,
+  homeTeam: 14,
+  homeTeamGoals: 2,
+  awayTeam: 16,
   awayTeamGoals: 1,
   inProgress: false,
   teamHome: {
-    teamName: 'São Paulo'
+    teamName: 'Santos'
   },
   teamAway: {
-    teamName: 'Grêmio'
+    teamName: 'São Paulo'
   }
 }
 
