@@ -1,4 +1,3 @@
-// import { IMatch } from '../../../interfaces/Matches/index';
 import sortTeamsService from '../../../services/SortTeamsService';
 import Match from '../../../database/models/Match';
 import Team from '../../../database/models/Team';
