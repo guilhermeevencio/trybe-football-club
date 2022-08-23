@@ -21,10 +21,16 @@ export default class LeaderboarUseCase {
   }
 
   private static drawsNumber(matches: Match[]): number {
-    let draws = 0;
-    matches.forEach(({ homeTeamGoals, awayTeamGoals }: Match) => {
-      if (homeTeamGoals === awayTeamGoals) { draws += 1; }
-    });
+    // let draws = 0;
+    // matches.forEach(({ homeTeamGoals, awayTeamGoals }: Match) => {
+    //   if (homeTeamGoals === awayTeamGoals) { draws += 1; }
+    // });
+    // return draws;
+    const draws = matches.reduce((acc: number, match: Match) => {
+      // eslint-disable-next-line no-param-reassign
+      if (match.homeTeamGoals === match.awayTeamGoals) { acc += 1; }
+      return acc;
+    }, 0);
     return draws;
   }
 
@@ -123,4 +129,9 @@ export default class LeaderboarUseCase {
     ));
     return teamData;
   }
+
+  // async getAllTeams(): Promise<any> {
+  //   const homeTeamData = await this.formatedTeamsData('homeTeam');
+  //   const awayTeamData = await this.formatedTeamsData('awayTeam');
+  // }
 }
