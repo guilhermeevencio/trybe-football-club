@@ -1,4 +1,5 @@
 // import { IMatch } from '../../../interfaces/Matches/index';
+import sortTeamsService from '../../../services/SortTeamsService';
 import Match from '../../../database/models/Match';
 import Team from '../../../database/models/Team';
 import { IRawLeaderboardData, IGoals, ILeaderboardReturn } from '../interfaces';
@@ -120,18 +121,45 @@ export default class LeaderboarUseCase {
 
   async sortedTeamsInfo(homeOrAway: string): Promise<ILeaderboardReturn[]> {
     const teamData = await this.formatedTeamsData(homeOrAway);
-    teamData.sort((a, b) => (
-      b.totalPoints - a.totalPoints
-      || b.totalVictories - a.totalVictories
-      || b.goalsBalance - a.goalsBalance
-      || b.goalsFavor - a.goalsFavor
-      || b.goalsOwn - a.goalsOwn
-    ));
-    return teamData;
+    const sortedTeams = sortTeamsService(teamData);
+    return sortedTeams;
   }
 
-  // async getAllTeams(): Promise<any> {
-  //   const homeTeamData = await this.formatedTeamsData('homeTeam');
-  //   const awayTeamData = await this.formatedTeamsData('awayTeam');
-  // }
+  private static allStatsSum(homeTeam: ILeaderboardReturn, team: ILeaderboardReturn) {
+    const totalVictories = homeTeam.totalVictories + team.totalVictories;
+    const totalDraws = homeTeam.totalDraws + team.totalDraws;
+    const totalLosses = homeTeam.totalLosses + team.totalLosses;
+    const efficiency = ((((totalVictories * 3) + totalDraws)
+    / ((totalVictories + totalDraws + totalLosses) * 3)) * 100).toFixed(2);
+
+    const stats: ILeaderboardReturn = {
+      name: team.name,
+      totalPoints: homeTeam.totalPoints + team.totalPoints,
+      totalGames: homeTeam.totalGames + team.totalGames,
+      totalVictories,
+      totalDraws,
+      totalLosses,
+      goalsFavor: homeTeam.goalsFavor + team.goalsFavor,
+      goalsOwn: homeTeam.goalsOwn + team.goalsOwn,
+      goalsBalance: homeTeam.goalsBalance + team.goalsBalance,
+      efficiency,
+    };
+    return stats;
+  }
+
+  async getAllTeams(): Promise<ILeaderboardReturn[]> {
+    const teamData = await this.formatedTeamsData('homeTeam');
+    const awayTeamData = await this.formatedTeamsData('awayTeam');
+    const teams: ILeaderboardReturn[] = [];
+    awayTeamData.forEach((team: ILeaderboardReturn) => {
+      teamData.forEach((homeTeam) => {
+        if (homeTeam.name === team.name) {
+          const allMatchesStatsObj = LeaderboarUseCase.allStatsSum(homeTeam, team);
+          teams.push(allMatchesStatsObj);
+        }
+      });
+    });
+    const sortedTeams = sortTeamsService(teams);
+    return sortedTeams;
+  }
 }
