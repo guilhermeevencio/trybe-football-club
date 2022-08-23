@@ -19,74 +19,94 @@ interface IGoals {
 export default class LeaderboarUseCase {
   constructor(private matchModel = Match, private teamModel = Team) {}
 
-  private static victoriesNumber(team: Team, matches: Match[]): number {
+  private static victoriesNumber(matches: Match[], homeOrAway: string): number {
     let victories = 0;
-    matches.forEach(({ homeTeam, homeTeamGoals, awayTeamGoals }: Match) => {
-      if (team.id === homeTeam && homeTeamGoals > awayTeamGoals) {
-        victories += 1;
-      }
+    if (homeOrAway === 'homeTeam') {
+      matches.forEach((match: Match) => {
+        if (match.homeTeamGoals > match.awayTeamGoals) { victories += 1; }
+      });
+      return victories;
+    }
+    matches.forEach((match: Match) => {
+      if (match.awayTeamGoals > match.homeTeamGoals) { victories += 1; }
     });
     return victories;
   }
 
-  private static drawsNumber(team: Team, matches: Match[]): number {
+  private static drawsNumber(matches: Match[]): number {
     let draws = 0;
-    matches.forEach(({ homeTeam, homeTeamGoals, awayTeamGoals }: Match) => {
-      if (team.id === homeTeam && homeTeamGoals === awayTeamGoals) {
-        draws += 1;
-      }
+    matches.forEach(({ homeTeamGoals, awayTeamGoals }: Match) => {
+      if (homeTeamGoals === awayTeamGoals) { draws += 1; }
     });
     return draws;
   }
 
-  private static lossesNumber(team: Team, matches: Match[]): number {
+  private static lossesNumber(matches: Match[], homeOrAway: string): number {
     let losses = 0;
-    matches.forEach(({ homeTeam, homeTeamGoals, awayTeamGoals }: Match) => {
-      if (team.id === homeTeam && homeTeamGoals < awayTeamGoals) {
-        losses += 1;
-      }
+    if (homeOrAway === 'homeTeam') {
+      matches.forEach(({ homeTeamGoals, awayTeamGoals }: Match) => {
+        if (homeTeamGoals < awayTeamGoals) { losses += 1; }
+      });
+      return losses;
+    }
+    matches.forEach(({ homeTeamGoals, awayTeamGoals }: Match) => {
+      if (homeTeamGoals > awayTeamGoals) { losses += 1; }
     });
     return losses;
   }
 
-  private static goalNumbers(team: Team, matches: Match[]): IGoals {
+  private static goalNumbers(matches: Match[], homeOrAway: string): IGoals {
     let goalsFor = 0;
     let goalsAgainst = 0;
-    matches.forEach(({ homeTeamGoals, homeTeam, awayTeamGoals }: Match) => {
-      if (team.id === homeTeam) {
+    if (homeOrAway === 'homeTeam') {
+      matches.forEach(({ homeTeamGoals, awayTeamGoals }: Match) => {
         goalsFor += homeTeamGoals;
         goalsAgainst += awayTeamGoals;
-      }
+      });
+      return { goalsFor, goalsAgainst };
+    }
+    matches.forEach(({ homeTeamGoals, awayTeamGoals }: Match) => {
+      goalsFor += awayTeamGoals;
+      goalsAgainst += homeTeamGoals;
     });
     return { goalsFor, goalsAgainst };
   }
 
-  private static goalsAgainstNumber(team: Team, matches: Match[]): number {
-    let goalsAgainst = 0;
-    matches.forEach(({ awayTeamGoals, homeTeam }: Match) => {
-      if (team.id === homeTeam) {
-        goalsAgainst += awayTeamGoals;
-      }
-    });
-    return goalsAgainst;
+  private static convertMatchData(
+    team: Team,
+    homeTeamMatches: Match[],
+    homeOrAway: string,
+  ): IRawLeaderboardData {
+    const wons = LeaderboarUseCase.victoriesNumber(homeTeamMatches, homeOrAway);
+    const draws = LeaderboarUseCase.drawsNumber(homeTeamMatches);
+    const losses = LeaderboarUseCase.lossesNumber(homeTeamMatches, homeOrAway);
+    const goals = LeaderboarUseCase.goalNumbers(homeTeamMatches, homeOrAway);
+    return { team: team.teamName, wons, draws, losses, ...goals };
   }
 
-  private async rawLeaderBoardData(): Promise<IRawLeaderboardData[]> {
+  private async rawLeaderBoardData(homeOrAway: string): Promise<IRawLeaderboardData[]> {
     const matches = await this.matchModel.findAll({ where: { inProgress: false } });
     const teams = await this.teamModel.findAll();
-    const results = teams.map((team) => {
-      const wons = LeaderboarUseCase.victoriesNumber(team, matches);
-      const draws = LeaderboarUseCase.drawsNumber(team, matches);
-      const losses = LeaderboarUseCase.lossesNumber(team, matches);
-      const goals = LeaderboarUseCase.goalNumbers(team, matches);
-      return { team: team.teamName, wons, draws, losses, ...goals };
+    const teamsRefactored: IRawLeaderboardData[] = [];
+    let teamMatches: Match[];
+
+    teams.forEach((teamData) => {
+      if (homeOrAway === 'homeTeam') {
+        teamMatches = matches.filter((match) => match.homeTeam === teamData.id);
+      } else {
+        teamMatches = matches.filter((match) => match.awayTeam === teamData.id);
+      }
+
+      const team = LeaderboarUseCase.convertMatchData(teamData, teamMatches, homeOrAway);
+
+      teamsRefactored.push(team);
     });
 
-    return results;
+    return teamsRefactored;
   }
 
-  async formatedTeamsData() {
-    const rawData: IRawLeaderboardData[] = await this.rawLeaderBoardData();
+  private async formatedTeamsData(homeOrAway: string) {
+    const rawData: IRawLeaderboardData[] = await this.rawLeaderBoardData(homeOrAway);
     const formatedData = rawData.map(({ team, wons, draws, losses, goalsAgainst, goalsFor }) => {
       const data = {
         name: team,
@@ -98,11 +118,22 @@ export default class LeaderboarUseCase {
         goalsFavor: goalsFor,
         goalsOwn: goalsAgainst,
         goalsBalance: goalsFor - goalsAgainst,
-        efficiency: Number(((((wons * 3) + draws) / ((wons + draws + losses) * 3)) * 100)
-          .toFixed(2)),
+        efficiency: ((((wons * 3) + draws) / ((wons + draws + losses) * 3)) * 100).toFixed(2),
       };
       return data;
     });
     return formatedData;
+  }
+
+  async sortedTeamsInfo(homeOrAway: string) {
+    const teamData = await this.formatedTeamsData(homeOrAway);
+    teamData.sort((a, b) => (
+      b.totalPoints - a.totalPoints
+      || b.totalVictories - a.totalVictories
+      || b.goalsBalance - a.goalsBalance
+      || b.goalsFavor - a.goalsFavor
+      || b.goalsOwn - a.goalsOwn
+    ));
+    return teamData;
   }
 }
