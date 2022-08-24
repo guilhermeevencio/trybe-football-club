@@ -15,7 +15,7 @@ export default class LeaderboardController {
 
   public async getAllHome(_req: Request, res: Response, next: NextFunction): Promise<void> {
     try {
-      const matches = await this.leaderBoardUseCase.sortedTeamsInfo('homeTeam');
+      const matches = await this.leaderBoardUseCase.getLeaderBoard('homeTeam');
       res.status(200).json(matches);
     } catch (error) {
       next(error);
@@ -24,7 +24,7 @@ export default class LeaderboardController {
 
   public async getAllAway(_req: Request, res: Response, next: NextFunction): Promise<void> {
     try {
-      const matches = await this.leaderBoardUseCase.sortedTeamsInfo('awayTeam');
+      const matches = await this.leaderBoardUseCase.getLeaderBoard('awayTeam');
       res.status(200).json(matches);
     } catch (error) {
       next(error);
