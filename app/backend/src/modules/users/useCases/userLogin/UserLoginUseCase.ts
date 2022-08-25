@@ -1,7 +1,7 @@
 // import httpStatus from 'http-status-codes';
 import CustomError from '../../../../Error/CustomError';
 import User from '../../../../database/models/User';
-import { LoginRequest } from '../../../../interfaces/User';
+import { LoginRequest } from '../../interfaces';
 import TokenService from '../../../../services/TokenService';
 import HandleWithPassword from '../../../../services/HandleWithPassword';
 

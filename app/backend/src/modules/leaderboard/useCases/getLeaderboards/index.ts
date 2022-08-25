@@ -1,5 +1,5 @@
-import LeaderboarUseCase from './leaderboardUseCase';
-import LeaderboardController from './leaderBoardController';
+import LeaderboarUseCase from './LeaderboardUseCase';
+import LeaderboardController from './LeaderBoardController';
 
 const leaderboardUseCase = new LeaderboarUseCase();
 

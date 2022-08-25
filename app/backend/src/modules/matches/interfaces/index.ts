@@ -1,4 +1,4 @@
-import Match from '../../database/models/Match';
+import Match from '../../../database/models/Match';
 
 interface ICreatedMatch {
   id: number;

@@ -1,6 +1,6 @@
 import CustomError from '../../../../Error/CustomError';
 import Team from '../../../../database/models/Team';
-import { ITeam } from '../../../../interfaces/Teams';
+import { ITeam } from '../../interfaces';
 
 export default class GetTeamsUseCase {
   constructor(private teamModel = Team) {}

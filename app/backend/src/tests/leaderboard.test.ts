@@ -12,7 +12,7 @@ import { Response } from 'superagent'
 import Match from '../database/models/Match';
 import { matchMock } from './mocks/matches.mock';
 import Team from '../database/models/Team';
-import { ITeam } from '../interfaces/Teams';
+import { ITeam } from '../modules/teams/interfaces';
 import { awayTeamMock } from './mocks/teams.mock';
 
 chai.use(chaiHttp);
@@ -33,13 +33,11 @@ describe('Rota /leaderboard/home', () => {
       sinon.stub(Match, "findAll").resolves([matchMock as unknown as Match]);
       sinon.stub(Team, "findAll").resolves([teamMock as unknown as Team]);
       chaiHttpResponse = await chai.request(app)
-        .get('/leaderboard/home')
+        .get('/leaderboard/home');
     });
 
     afterEach(()=>{
-      sinon.restore()
-      // (Match.findAll as sinon.SinonStub).restore;
-      // (Team.findAll as sinon.SinonStub).restore;
+      sinon.restore();
     });
 
     it('A requisição GET para retorna status 200.', () => {
@@ -69,11 +67,11 @@ describe('Rota /leaderboard/away', () => {
       sinon.stub(Match, "findAll").resolves([matchMock as unknown as Match]);
       sinon.stub(Team, "findAll").resolves([awayTeamMock as unknown as Team]);
       chaiHttpResponse = await chai.request(app)
-        .get('/leaderboard/away')
+        .get('/leaderboard/away');
     });
 
     afterEach(()=>{
-      sinon.restore()
+      sinon.restore();
     });
 
     it('A requisição GET para retorna status 200.', () => {

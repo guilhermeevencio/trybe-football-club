@@ -2,7 +2,7 @@ import {
   ICreatedMatch,
   ICreateMatchRequestBody,
   ICreateMatchUseCase,
-} from '../../../../interfaces/Matches';
+} from '../../interfaces';
 import Match from '../../../../database/models/Match';
 import CustomError from '../../../../Error/CustomError';
 import Team from '../../../../database/models/Team';

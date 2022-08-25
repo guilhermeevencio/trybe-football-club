@@ -3,7 +3,7 @@ import {
   ICreatedMatch,
   IMatch,
   ICreateMatchRequestBody,
-} from '../../interfaces/Matches';
+} from '../../modules/matches/interfaces';
 
 const matchMock: IMatch = 	{
   id: 14,

@@ -1,7 +1,7 @@
 import * as jwt from 'jsonwebtoken';
 import 'dotenv/config';
 import CustomError from '../Error/CustomError';
-import { LoginRequest } from '../interfaces/User';
+import { LoginRequest } from '../modules/users/interfaces';
 
 class TokenService {
   static createToken(userInfo: LoginRequest): string {

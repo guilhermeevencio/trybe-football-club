@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from 'express';
 import httpStatus from 'http-status-codes';
 import CustomError from '../../../../Error/CustomError';
-import { ILoginUserUseCase } from '../../../../interfaces/User';
+import { ILoginUserUseCase } from '../../interfaces';
 
 export default class UserLoginController {
   constructor(private userLoginUseCase : ILoginUserUseCase) {}

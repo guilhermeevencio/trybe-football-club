@@ -1,16 +1,13 @@
 import * as sinon from 'sinon';
 import * as chai from 'chai';
-import User from '../database/models/User'
-import UserLoginUseCase from '../modules/users/useCases/userLogin/UserLoginUseCase';
+import User from '../database/models/User';
 import * as jwt from 'jsonwebtoken';
 // @ts-ignore
 import chaiHttp = require('chai-http');
 
 import { app } from '../app';
-import { LoginRequest, IUser } from '../interfaces/User'
-
+import { LoginRequest, IUser } from '../modules/users/interfaces';
 import { Response } from 'superagent';
-import TokenService from '../services/TokenService';
 
 chai.use(chaiHttp);
 

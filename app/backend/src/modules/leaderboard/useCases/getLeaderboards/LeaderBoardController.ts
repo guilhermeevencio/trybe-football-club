@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from 'express';
-import LeaderboarUseCase from './leaderboardUseCase';
+import LeaderboarUseCase from './LeaderboardUseCase';
 
 export default class LeaderboardController {
   constructor(private leaderBoardUseCase: LeaderboarUseCase) {}

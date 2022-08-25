@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from 'express';
-import { IMatchesUseCase } from '../../../../interfaces/Matches';
+import { IMatchesUseCase } from '../../interfaces';
 
 export default class GetMatchesController {
   constructor(private matchesuseCase : IMatchesUseCase) {}

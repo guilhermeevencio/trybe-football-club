@@ -1,4 +1,4 @@
-import { IUser } from '../../interfaces/User';
+import { IUser } from '../../modules/users/interfaces';
 
 const userMock: IUser = {
   id: 1,

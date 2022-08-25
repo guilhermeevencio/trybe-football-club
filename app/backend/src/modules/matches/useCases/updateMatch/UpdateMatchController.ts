@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from 'express';
-import { IUpdateMatchUseCase } from '../../../../interfaces/Matches';
+import { IUpdateMatchUseCase } from '../../interfaces';
 
 export default class UpdateMatchController {
   constructor(private updateMatchUseCase: IUpdateMatchUseCase) {}

@@ -1,4 +1,4 @@
-import { ITeam } from '../../interfaces/Teams';
+import { ITeam } from '../../modules/teams/interfaces';
 
 const awayTeamMock: ITeam = {
   id: 16,

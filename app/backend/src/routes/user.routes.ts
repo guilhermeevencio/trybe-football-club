@@ -1,6 +1,5 @@
 import { Router } from 'express';
 import ValidateToken from '../middlewares/ValidateToken';
-// import CustomError from '../Error/CustomError';
 import userLoginController from '../modules/users/useCases/userLogin';
 
 const LoginRoutes = Router();

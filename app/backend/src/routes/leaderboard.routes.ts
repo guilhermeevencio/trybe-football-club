@@ -1,6 +1,6 @@
 import { Router } from 'express';
 
-import leaderBoardController from '../modules/leaderboard/useCases';
+import leaderBoardController from '../modules/leaderboard/useCases/getLeaderboards';
 
 const LeaderboardRoutes = Router();
 

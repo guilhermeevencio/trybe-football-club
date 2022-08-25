@@ -1,15 +1,14 @@
 import * as sinon from 'sinon';
 import * as chai from 'chai';
 
-import Team from '../database/models/Team'
-import { ITeam } from '../interfaces/Teams'
+import Team from '../database/models/Team';
+import { ITeam } from '../modules/teams/interfaces';
 
 //@ts-ignore
 import chaiHttp = require('chai-http');
 
 import { app } from '../app';
 import { Response } from 'superagent'
-import { LoginRequest, IUser } from '../interfaces/User'
 
 chai.use(chaiHttp);
 
@@ -67,8 +66,6 @@ describe('Rota /teams.', () => {
     })
 
     it('Deve retornar o time', () => {
-      // const team = chaiHttpResponse.body as ITeam;
-
       expect(chaiHttpResponse.body).to.deep.equal(teamMock);
     })
   })

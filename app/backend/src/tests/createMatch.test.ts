@@ -4,7 +4,7 @@ import * as jwt from 'jsonwebtoken';
 
 import Match from '../database/models/Match'
 import User from '../database/models/User'
-import { IMatch } from '../interfaces/Matches'
+import { IMatch } from '../modules/matches/interfaces'
 import {
   matchMock,
   createMatchMock,

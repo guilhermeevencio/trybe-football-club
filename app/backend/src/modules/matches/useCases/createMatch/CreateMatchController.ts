@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from 'express';
-import { ICreateMatchRequestBody, ICreateMatchUseCase } from '../../../../interfaces/Matches';
+import { ICreateMatchRequestBody, ICreateMatchUseCase } from '../../interfaces';
 
 export default class CreateMatchController {
   constructor(private createMatchUseCase: ICreateMatchUseCase) {}

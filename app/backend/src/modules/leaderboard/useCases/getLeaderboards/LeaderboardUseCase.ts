@@ -1,7 +1,7 @@
-import sortTeamsService from '../../../services/SortTeamsService';
-import Match from '../../../database/models/Match';
-import Team from '../../../database/models/Team';
-import { ILeaderboardReturn, ITeamInfoResults } from '../interfaces';
+import sortTeamsService from '../../../../services/SortTeamsService';
+import Match from '../../../../database/models/Match';
+import Team from '../../../../database/models/Team';
+import { ILeaderboardReturn, ITeamInfoResults } from '../../interfaces';
 
 export default class LeaderboarUseCase {
   constructor(private matchModel = Match, private teamModel = Team) {}

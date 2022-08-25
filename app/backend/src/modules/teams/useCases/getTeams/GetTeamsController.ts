@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from 'express';
-import { ITeamsUseCase } from '../../../../interfaces/Teams';
+import { ITeamsUseCase } from '../../interfaces';
 
 export default class GetTeamsController {
   constructor(private teamsUseCase : ITeamsUseCase) {}
